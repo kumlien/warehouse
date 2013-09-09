@@ -1,0 +1,23 @@
+@()
+<div id="myCarousel" class="carousel slide text-center">
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+    <li data-target="#myCarousel" data-slide-to="3"></li>
+    <li data-target="#myCarousel" data-slide-to="4"></li>
+    <li data-target="#myCarousel" data-slide-to="5"></li>
+  </ol>
+  <!-- Carousel items -->
+  <div class="carousel-inner">
+    <div class="active item"><img height="300" width="600"  alt="" src="@routes.Assets.at("images/carousel/wine1.jpg")"> </div>
+    <div class="item"><img  src="@routes.Assets.at("images/carousel/wine2.jpg")"> </div>
+    <div class="item"><img  src="@routes.Assets.at("images/carousel/wine3.jpg")"> </div>
+    <div class="item"><img  src="@routes.Assets.at("images/carousel/wine4.jpg")"> </div>
+    <div class="item"><img  src="@routes.Assets.at("images/carousel/wine5.jpg")"> </div>
+    <div class="item"><img  src="@routes.Assets.at("images/carousel/wine6.jpg")"> </div>
+  </div>
+  <!-- Carousel nav -->
+  <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+  <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+</div>
