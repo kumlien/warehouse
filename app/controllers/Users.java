@@ -11,6 +11,9 @@ public class Users extends Controller {
 	
 	public static Result login() {
 		Form<User> userForm = productForm.bindFromRequest();
-		return ok("logging in..." + userForm.get());
+		User.authenticate(userForm.get().username, userForm.get().password);
+		session().clear();
+		session("username", userForm.get().username);
+		return redirect(routes.Application.index());
 	}
 }

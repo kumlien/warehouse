@@ -25,6 +25,10 @@ public class User {
 				+ ", lastName=" + lastName + ", joined=" + joined
 				+ ", password=" + password + "]";
 	}
+
+	public static void authenticate(String username, String password) {
+		return ;
+	}
 	
 	
 }
