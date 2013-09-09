@@ -2,6 +2,8 @@ package db;
 
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
 import models.Product;
 
 import com.avaje.ebean.Ebean;
@@ -19,8 +21,12 @@ public class EbeanProductRepo implements ProductRepo {
 	}
 
 	@Override
-	public void save(Product product) {
-		Ebean.save(product);
+	public void saveOrUpdate(Product product) {
+		try {
+			Ebean.save(product);
+		} catch (PersistenceException pe) {
+			Ebean.update(product);
+		}
 	}
 
 }

@@ -1,10 +1,9 @@
 package controllers;
 
-import java.text.Format;
-
 import models.Product;
 import play.data.Form;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import views.html.productdetail;
 import views.html.productlist;
@@ -40,10 +39,12 @@ public class Products extends Controller {
 	
 	public static Result save() {
 		Form<Product> form = productForm.bindFromRequest();
+		
 		if(!form.hasErrors()) {
-			repo.save(form.get());
+			repo.saveOrUpdate(form.get());
 			return redirect(routes.Products.list());
 		} else {
+			
 			flash("Error", "errors..." + form.errorsAsJson());
 			return badRequest(productdetail.render(form));
 		}

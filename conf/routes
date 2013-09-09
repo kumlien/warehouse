@@ -16,3 +16,5 @@ GET 	/create						controllers.Products.create()
 POST	/save						controllers.Products.save()
 
 GET 	/products/:ean				controllers.Products.getProduct(ean : Long)
+
+POST    /login						controllers.Users.login()

@@ -6,7 +6,7 @@
 	<h1>Produktformulär</h1>
 	@helper.form(action = routes.Products.save()) {
 		<fieldset>
-			<legend>Product (@productForm("name").valueOr("new one"))</legend>
+			<legend>Produkt (@productForm("name").valueOr("ny"))</legend>
 			@helper.inputText(productForm("ean"))
 			
 			@helper.inputText(productForm("name"))

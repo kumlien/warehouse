@@ -10,5 +10,5 @@ public interface ProductRepo {
 	
 	Product findById(Long ean);
 
-	void save(Product product);
+	void saveOrUpdate(Product product);
 }
