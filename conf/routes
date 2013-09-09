@@ -7,3 +7,12 @@ GET     /                           controllers.Application.index()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+
+GET 	/products					controllers.Products.list()
+
+GET 	/create						controllers.Products.create()
+
+POST	/save						controllers.Products.save()
+
+GET 	/products/:ean				controllers.Products.getProduct(ean : Long)

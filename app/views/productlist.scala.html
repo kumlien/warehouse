@@ -1,0 +1,25 @@
+@(products: List[Product])
+
+@main("Produktkatalog") {
+
+	<h1>Alla produkter</h1>
+	
+	<table class="table table-striped">
+		<thead>
+        	<tr>
+        		<th>#</th>
+                <th>Namn</th>
+                <th>Beskrivning</th>
+             </tr>
+        </thead>
+        <tbody>
+			@for(product <- products) {
+			<tr>
+				<td><a href="@routes.Products.getProduct(product.ean)">@product.ean</a></td>
+				<td>@product.name</td>
+				<td>@product.description</td>
+			</tr>
+		}
+		</tbody>
+	</table>
+}
