@@ -1,6 +1,7 @@
 @()
 @import helper._
 @import helper.twitterBootstrap._
+@import com.feth.play.module.pa.views.html._
 @main("Register"){
 
 <!-- Snodd från http://bootsnipp.com/snipps/parallel-signin-and-signup -->
@@ -101,7 +102,9 @@
                 </div>
             </div>
         </div>
-        <div id="result"></div>
+        <div id="result">@forProviders() { p =>
+		<a href="@p.getUrl()">@p.getKey()</a>
+	}</div>
         <script>
         	$("#loginForm").submit(function(event){
             	event.preventDefault();
