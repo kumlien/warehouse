@@ -1,0 +1,192 @@
+@()
+@import helper._
+@import helper.twitterBootstrap._
+@main("Register"){
+
+<!-- Snodd från http://bootsnipp.com/snipps/parallel-signin-and-signup -->
+
+<div class="container">
+        	<div class="row-fluid">
+            	<div class="span12">
+                	<div class="span6">
+                    	<div class="area" id="loginDiv">
+                            <form class="form-horizontal" id="loginForm">
+                                <div class="heading">
+                                    <h4 class="form-heading">Logga in om du redan är registrerad</h4>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="inputUsername">Användarnamn</label>
+                                    <div class="controls">
+                                        <input type="text" id="inputUsername" name="inputUsername" placeholder="Din epostadress">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="inputPassword">Lösenord</label>
+                                    <div class="controls">
+                                        <input type="password" id="inputPassword" name="inputPassword" placeholder="Ditt lösenord">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <label class="checkbox">
+                                            <input type="checkbox"> Keep me signed in   ¦
+                                            <a href="#" class="btn btn-link">Forgot my password</a>
+                                        </label>
+                                        <button type="submit" class="btn btn-success" id="loginSubmitBtn">Logga in</button>
+                                        <button type="button" class="btn">Hjälp</button>
+                                    </div>
+                                </div>	
+                                <div class="alert alert-error" hidden="true">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <strong>Inloggningen misslyckades!</strong> Please provide valid authorization.
+                                </div>
+                            </form>	
+						</div>                           
+                    </div>
+                    <div class="span6">
+                    	<div class="area">
+                            <form class="form-horizontal" id = "registerForm">
+                                <div class="heading">
+                                    <h4 class="form-heading">Registrera dig</h4>
+                                </div>
+   
+                                <div class="control-group">
+                                    <label class="control-label" for="firstName">Förnamn</label>
+                                    <div class="controls">
+                                        <input type="text" id="firstName" name="firstName" placeholder="T.ex. Svante">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="lastName">Last Name</label>
+                                    <div class="controls">
+                                        <input type="text" id="lastName" name="lastName" placeholder="T.ex. Kumlien">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="email">Epost</label>
+                                    <div class="controls">
+                                        <input type="text" id="email" name="email" placeholder="T.ex. svantekumlien@@gmail.com">
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label" for="pass1">Lösenord</label>
+                                    <div class="controls">
+                                        <input type="password" id="pass1" name="pass1" placeholder="Minst 8 tecken">
+                                    </div>
+                                </div>
+                                 <div class="control-group">
+                                    <label class="control-label" for="pass2">Upprepa lösenord</label>
+                                    <div class="controls">
+                                        <input type="password" id="pass2" name="pass2" placeholder="Minst 8 tecken">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <label class="checkbox">
+                                            <input type="checkbox"> Jag accepterar era <a href="#">Villkor</a>
+                                        </label>
+                                        <button type="submit" class="btn btn-success" id="regSubmitBtn">Registrera mig!</button>
+                                        <button type="button" class="btn">Hjälp</button>
+                                    </div>
+                                </div>	
+                                <div class="alert alert-info" hidden="true">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <strong>Confirmation: </strong> A confirmation email has been sent to your email.<br>
+                                    Thank you for your registration.
+                                </div>
+                            </form>	
+						</div>                            
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="result"></div>
+        <script>
+        	$("#loginForm").submit(function(event){
+            	event.preventDefault();
+            	var user = $("#inputUsername").val();
+            	var pass = $("#inputPassword").val();
+            	var jqxhr = $.post("@routes.Users.login?"+"username=" + user + "&password=" + pass, function() {
+            	})
+				.fail(function() { $(".alert-error").show() }
+				);
+        	});
+        	
+        	$("#registerForm").submit(function(event){
+            	event.preventDefault();
+            	var email = $("#email").val();
+            	var fn = $("#firstName").val();
+            	var ln = $("#lastName").val();
+            	var pass1 = $("#pass1").val();
+            	var pass2 = $("#pass2").val();
+            	var jqxhr = $.post("@routes.Users.register?username="+email+"&firstName="+fn+"&lastName="+ln+"&password="+pass1+"&password2="+pass2, 
+            		function() {})
+				.fail(function() { $(".alert-error").show() }
+				);
+        	});
+        	
+        	
+        	$(document).ready(function(){
+ 				
+ 				$("#loginForm").validate({
+			  		rules: {
+			    		inputUsername: {
+			      			required: true,
+			      			email: true
+			    		},
+			    		inputPassword: {
+			      			required: true
+			    		}
+			  		},
+			  		highlight: function(element) {
+			    		$(element).closest('.control-group').removeClass('success').addClass('error');
+			  		},
+			  		success: function(element) {
+			    		element
+			    		.text('OK!').addClass('valid')
+			    		.closest('.control-group').removeClass('error').addClass('success');
+			    		
+			  		}
+			 	});
+			 	
+			 	$("#registerForm").validate({
+			  		rules: {
+			    		firstName: {
+			      			required: true,
+			      			minlength: 2
+			    		},
+			    		lastName: {
+			      			required: true,
+			      			minlength: 2
+			    		},
+			    		email: {
+			      			required: true,
+			      			email: true,
+			      			minlength: 10
+			    		},
+			    		pass1: {
+			    			required: true,
+			    			minlength: 8
+			    		},
+			    		pass2: {
+			    			equalTo: "#pass1"
+			    		}
+			    		
+			  		},
+			  		highlight: function(element) {
+			    		$(element).closest('.control-group').removeClass('success').addClass('error');
+			  		},
+			  		success: function(element) {
+			    		element
+			    		.text('OK!').addClass('valid')
+			    		.closest('.control-group').removeClass('error').addClass('success');
+			  		}
+			 	});
+			}); // end document.ready
+			
+			
+			
+        </script>
+        
+    }
