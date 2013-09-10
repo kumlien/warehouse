@@ -1,16 +1,12 @@
 package models;
 
 import java.util.Date;
-import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
-import play.data.validation.Constraints.Min;
-import play.data.validation.Constraints.Required;
-import play.libs.F.Option;
-import play.mvc.QueryStringBindable;
+import com.avaje.ebean.Ebean;
 
 @Entity
 public class User {
@@ -47,8 +43,20 @@ public class User {
 				+ ", password=" + password + "]";
 	}
 
-	public static void authenticate(String username, String password) {
-		return ;
+	public static String authenticate(String username, String password) {
+		User user = Ebean.find(User.class, username);
+		if(user != null) {
+			System.out.println("found a user: " + user);
+			if(user.password.equals(password)) {
+				System.out.println("passwords match");
+				return null;
+			}
+		}
+		return "Unsuccessful authentication";
+	}
+
+	public static void save(User newUser) {
+		Ebean.save(newUser);
 	}
 	
 	

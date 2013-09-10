@@ -18,10 +18,12 @@ public class Users extends Controller {
 	public static Result login() throws InterruptedException {
 		Form<User> userForm = productForm.bindFromRequest();
 		System.out.println(userForm.get());
-//		User.authenticate(userForm.get().username, userForm.get().password);
-//		session().clear();
-//		session("username", userForm.get().username);
-		Thread.sleep(3000);
+		String response = User.authenticate(userForm.get().username, userForm.get().password);
+		if(response != null) {
+			return badRequest();
+		} else 
+		session().clear();
+		session("username", userForm.get().username);
 		return redirect(routes.Application.index());
 	}
 	
@@ -32,7 +34,7 @@ public class Users extends Controller {
 	public static Result register() {
 		Form<User> userForm = productForm.bindFromRequest();
 		User newUser = userForm.get();
-		System.out.println(newUser);
+		User.save(newUser);
 		
 		return ok();
 	}
