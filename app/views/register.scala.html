@@ -135,7 +135,9 @@
             	var pass2 = $("#pass2").val();
             	var jqxhr = $.post("@routes.Users.register?username="+email+"&firstName="+fn+"&lastName="+ln+"&password="+pass1+"&password2="+pass2, 
             		function() {})
-				.fail(function() { $("#registerFailed").show() }
+				.fail(function() { 
+					$("#registerFailed").show() 
+					}
 				);
         	});
         	
