@@ -11,7 +11,7 @@
             	<div class="span12">
                 	<div class="span6">
                     	<div class="area" id="loginDiv">
-                            <form class="form-horizontal" id="loginForm">
+                            <form class="form-horizontal" id="loginForm" ac>
                                 <div class="heading">
                                     <h4 class="form-heading">Logga in om du redan är registrerad</h4>
                                 </div>
@@ -37,7 +37,7 @@
                                         <button type="button" class="btn">Hjälp</button>
                                     </div>
                                 </div>	
-                                <div class="alert alert-error" hidden="true">
+                                <div class="alert alert-error" hidden="true" id="loginFailed">
                                     <button type="button" class="close" data-dismiss="alert">×</button>
                                     <strong>Inloggningen misslyckades!</strong> Please provide valid authorization.
                                 </div>
@@ -91,10 +91,14 @@
                                         <button type="button" class="btn">Hjälp</button>
                                     </div>
                                 </div>	
-                                <div class="alert alert-info" hidden="true">
+                                <div class="alert alert-info" hidden="true" id="registerOk">
                                     <button type="button" class="close" data-dismiss="alert">×</button>
                                     <strong>Confirmation: </strong> A confirmation email has been sent to your email.<br>
                                     Thank you for your registration.
+                                </div>
+                                <div class="alert alert-error" hidden="true" id="registerFailed">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <strong>Registreringen misslyckades!</strong> <div id="registerErrorMessage"></div>
                                 </div>
                             </form>	
 						</div>                            
@@ -102,22 +106,28 @@
                 </div>
             </div>
         </div>
-        <div id="result">@forProviders() { p =>
-		<a href="@p.getUrl()">@p.getKey()</a>
-	}</div>
+	</div>
         <script>
+        <!-- Validation plugin at http://jqueryvalidation.org/documentation/-->
         	$("#loginForm").submit(function(event){
+        		$("#loginFailed").hide();
             	event.preventDefault();
+            	var form = $( "#loginForm" );
+            	if(!form.valid()) return;
             	var user = $("#inputUsername").val();
             	var pass = $("#inputPassword").val();
-            	var jqxhr = $.post("@routes.Users.login?"+"username=" + user + "&password=" + pass, function() {
+				
+             	var jqxhr = $.post("@routes.Users.login?"+"username=" + user + "&password=" + pass, function() {
             	})
-				.fail(function() { $(".alert-error").show() }
+				.fail(function() { $("#loginFailed").show() }
 				);
+				
         	});
         	
         	$("#registerForm").submit(function(event){
             	event.preventDefault();
+            	var form = $( "#registerForm" );
+            	if(!form.valid()) return;
             	var email = $("#email").val();
             	var fn = $("#firstName").val();
             	var ln = $("#lastName").val();
@@ -125,7 +135,7 @@
             	var pass2 = $("#pass2").val();
             	var jqxhr = $.post("@routes.Users.register?username="+email+"&firstName="+fn+"&lastName="+ln+"&password="+pass1+"&password2="+pass2, 
             		function() {})
-				.fail(function() { $(".alert-error").show() }
+				.fail(function() { $("#registerFailed").show() }
 				);
         	});
         	

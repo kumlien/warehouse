@@ -1,8 +1,8 @@
 package util;
 
-import com.avaje.ebean.Ebean;
-
 import models.Product;
+
+import com.avaje.ebean.Ebean;
 
 public class DummyProducLoader {
 	
